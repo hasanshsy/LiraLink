@@ -3,186 +3,297 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Lira Link - Smart Currency Converter</title>
+    <meta name="description" content="Lira Link - Smart Currency Converter by Anas Shameea">
+    <meta name="theme-color" content="#2563EB">
+    <title>Lira Link | MR.Q Ecosystem</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Arabic:wght@300;400;500;700&family=Inter:wght@400;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Arabic:wght@300;400;500;700;800&family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
     <style>
         :root {
-            --bg: #f8fafd; --card: #ffffff; --text: #1f1f1f; --accent: #1a73e8; --input: #f1f3f4; --border: #dadce0;
+            --bg-primary: #F3F4F6;
+            --bg-card: #FFFFFF;
+            --text-primary: #111827;
+            --text-secondary: #4B5563; /* تم تغميقه قليلاً للوضوح */
+            --accent-color: #2563EB;
+            --border-color: #D1D5DB;
+            --input-bg: #F9FAFB;
         }
         .dark-mode {
-            --bg: #131314; --card: #1e1f20; --text: #e3e3e3; --accent: #a8c7fa; --input: #28292a; --border: #444746;
+            --bg-primary: #0F172A;
+            --bg-card: #1E293B;
+            --text-primary: #F1F5F9;
+            --text-secondary: #94A3B8;
+            --accent-color: #3B82F6;
+            --border-color: #334155;
+            --input-bg: #0F172A;
         }
+
         body { 
             font-family: 'Noto Sans Arabic', 'Inter', sans-serif; 
-            background-color: var(--bg); color: var(--text); transition: 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            background-color: var(--bg-primary); 
+            color: var(--text-primary); 
+            transition: background-color 0.3s ease, color 0.3s ease;
+            -webkit-tap-highlight-color: transparent;
         }
-        .gemini-card {
-            background-color: var(--card); border: 1px solid var(--border); border-radius: 28px;
-            transition: transform 0.2s ease, box-shadow 0.2s ease;
+
+        .glass-card {
+            background-color: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 24px;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
         }
-        .gemini-input {
-            background-color: var(--input); border: 1px solid transparent; border-radius: 16px;
-            padding: 16px; font-size: 1.1rem; width: 100%; transition: all 0.2s;
+
+        .modern-input, select {
+            background-color: var(--input-bg) !important;
+            border: 2px solid var(--border-color) !important;
+            color: var(--text-primary) !important;
+            border-radius: 16px;
+            padding: 14px 18px;
+            transition: all 0.2s;
+            outline: none;
         }
-        .gemini-input:focus { border-color: var(--accent); background-color: var(--card); box-shadow: 0 0 0 4px rgba(26,115,232,0.1); }
-        .tab-active { background-color: var(--accent); color: var(--card); box-shadow: 0 4px 12px rgba(26,115,232,0.3); }
-        .currency-badge { padding: 4px 12px; border-radius: 8px; font-size: 0.8rem; font-weight: bold; background: rgba(128,128,128,0.1); }
-        .copy-btn:active { transform: scale(0.9); }
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
-        .animate-fade { animation: fadeIn 0.4s ease forwards; }
+        .modern-input:focus, select:focus {
+            border-color: var(--accent-color) !important;
+            box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.1);
+        }
+
+        .tab-btn {
+            background: transparent;
+            color: var(--text-secondary);
+            border-radius: 14px;
+            font-weight: 600;
+            transition: all 0.2s;
+        }
+        .tab-active {
+            background-color: var(--accent-color);
+            color: #ffffff !important;
+            box-shadow: 0 4px 12px rgba(37, 99, 235, 0.3);
+        }
+
+        .animate-enter { animation: slideUp 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
+        @keyframes slideUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+        
+        .live-indicator { animation: pulse-glow 2s infinite; }
+        @keyframes pulse-glow { 0%, 100% { opacity: 1; } 50% { opacity: 0.5; } }
+
+        .btn-action {
+            background-color: var(--bg-card);
+            color: var(--text-primary);
+            border: 1px solid var(--border-color);
+            transition: all 0.2s;
+        }
+        .btn-action:active { transform: scale(0.95); }
+
+        /* ستايل خاص لبطاقات الأسعار العالمية لضمان القراءة */
+        .market-item {
+            background-color: var(--bg-card);
+            border: 1px solid var(--border-color);
+            color: var(--text-primary);
+        }
     </style>
 </head>
-<body class="min-h-screen p-4 md:p-10">
+<body class="min-h-screen p-4 md:p-8 selection:bg-blue-500 selection:text-white">
 
-    <div class="max-w-5xl mx-auto">
-        <header class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 mb-10">
+    <div class="max-w-6xl mx-auto">
+        <header class="flex flex-col md:flex-row justify-between items-start md:items-center gap-6 mb-10 animate-enter">
             <div>
-                <h1 class="text-3xl font-bold tracking-tight">
-                    <span class="text-blue-500">Lira Link</span> Smart Converter
+                <h1 class="text-4xl font-extrabold tracking-tight mb-2">
+                    <span style="color: var(--accent-color)">Lira Link</span>
                 </h1>
-                <p class="opacity-60 text-sm mt-1">تطوير: <span class="font-bold">Anas Shameea</span> | الإصدار 2.0</p>
+                <p id="dev-tag" class="text-sm font-medium" style="color: var(--text-secondary)">
+                    MR.Q Financial Ecosystem | Dev: <span class="text-blue-500 font-bold">Anas Shameea</span>
+                </p>
             </div>
-            <div class="flex items-center gap-3 bg-white dark:bg-gray-800 p-2 rounded-2xl shadow-sm border border-gray-100 dark:border-gray-700">
-                <button onclick="toggleLang()" id="langBtn" class="px-4 py-2 rounded-xl hover:bg-gray-100 dark:hover:bg-gray-700 font-medium">English</button>
-                <button onclick="toggleTheme()" class="p-2 rounded-xl bg-gray-100 dark:bg-gray-700 text-xl">🌓</button>
+            
+            <div class="flex items-center gap-3 bg-white dark:bg-gray-800 p-1.5 rounded-2xl shadow-md border border-gray-200 dark:border-gray-700">
+                <button onclick="toggleLang()" id="langBtn" class="px-4 py-2 rounded-xl hover:bg-gray-100 dark:hover:bg-gray-700 font-bold text-sm transition-colors" style="color: var(--text-primary)">English</button>
+                <div class="w-px h-6 bg-gray-300 dark:bg-gray-600"></div>
+                <button onclick="toggleTheme()" class="p-2 rounded-xl hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors text-lg">🌓</button>
             </div>
         </header>
 
-        <nav class="flex gap-2 mb-8 bg-gray-200/50 dark:bg-gray-800/50 p-1.5 rounded-3xl w-fit">
-            <button onclick="switchTab('main')" id="tab-main" class="tab-active px-6 py-3 rounded-2xl font-medium transition-all">المحول الرئيسي</button>
-            <button onclick="switchTab('smart')" id="tab-smart" class="px-6 py-3 rounded-2xl font-medium transition-all opacity-60">الدفع الذكي</button>
-            <button onclick="switchTab('market')" id="tab-market" class="px-6 py-3 rounded-2xl font-medium transition-all opacity-60">الأسواق العالمية</button>
+        <nav class="flex flex-wrap gap-2 mb-8 p-1.5 rounded-2xl w-full md:w-fit glass-card animate-enter">
+            <button onclick="switchTab('main')" id="tab-main" class="tab-btn tab-active flex-1 md:flex-none px-6 py-3">المحول الرئيسي</button>
+            <button onclick="switchTab('smart')" id="tab-smart" class="tab-btn flex-1 md:flex-none px-6 py-3">الدفع الذكي</button>
+            <button onclick="switchTab('market')" id="tab-market" class="tab-btn flex-1 md:flex-none px-6 py-3">السوق العالمي</button>
         </nav>
 
-        <main id="view-main" class="animate-fade">
-            <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
-                <div class="lg:col-span-2 space-y-6">
-                    <div class="gemini-card p-8 shadow-xl">
-                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                            <div class="space-y-2">
-                                <div class="flex justify-between px-2"><label class="font-bold" id="txt-old-label">الليرة القديمة</label><span class="currency-badge">SYP القديم</span></div>
-                                <input type="number" id="oldSyp" class="gemini-input" placeholder="مثلاً: 50000" oninput="handleMainInput('old')">
-                            </div>
-                            <div class="space-y-2">
-                                <div class="flex justify-between px-2"><label class="font-bold" id="txt-new-label">الليرة الجديدة</label><span class="currency-badge text-blue-500">SYP الجديد</span></div>
-                                <input type="number" id="newSyp" class="gemini-input" placeholder="مثلاً: 500" oninput="handleMainInput('new')">
-                            </div>
+        <main id="view-main" class="animate-enter">
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                <div class="lg:col-span-2 glass-card p-6 md:p-8">
+                    <div class="flex items-center gap-2 mb-6">
+                        <div class="w-2 h-8 rounded-full bg-blue-600"></div>
+                        <h2 id="title-conv" class="text-xl font-bold">تحويل العملة (SYP)</h2>
+                    </div>
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 relative">
+                        <div class="space-y-3">
+                            <label id="lbl-old" class="text-sm font-bold flex justify-between">
+                                <span>القيمة بالقديم</span>
+                                <span class="bg-gray-100 dark:bg-gray-700 px-2 py-0.5 rounded text-xs">SYP Old</span>
+                            </label>
+                            <input type="number" id="oldSyp" class="modern-input" placeholder="0" oninput="handleMainInput('old')">
+                            <p id="formatted-old" class="text-[10px] opacity-60 px-2 font-bold"></p>
                         </div>
-                        <div class="mt-8 p-6 bg-blue-50 dark:bg-blue-900/10 rounded-3xl border border-blue-100 dark:border-blue-800">
-                            <div class="flex justify-between items-center mb-4">
-                                <span class="font-bold">سعر صرف الدولار (يدوي)</span>
-                                <input type="number" id="usdRate" value="15000" class="w-32 p-2 rounded-xl border text-center font-bold text-blue-600" oninput="handleMainInput('old')">
+                        
+                        <div class="space-y-3">
+                            <label id="lbl-new" class="text-sm font-bold flex justify-between text-blue-500">
+                                <span>القيمة بالجديد</span>
+                                <span class="bg-blue-100 dark:bg-blue-900 px-2 py-0.5 rounded text-xs">SYP New</span>
+                            </label>
+                            <input type="number" id="newSyp" class="modern-input" placeholder="0" oninput="handleMainInput('new')">
+                            <p id="formatted-new" class="text-[10px] opacity-60 px-2 font-bold"></p>
+                        </div>
+                    </div>
+
+                    <div class="mt-8 p-6 bg-blue-50 dark:bg-blue-900/20 rounded-3xl border border-blue-100 dark:border-blue-800/50">
+                        <div class="flex flex-wrap justify-between items-center gap-4 mb-4">
+                            <div class="flex items-center gap-2">
+                                <span class="text-2xl">🇺🇸</span>
+                                <span id="lbl-rate" class="font-bold">سعر صرف الدولار (يدوي)</span>
                             </div>
-                            <div class="flex justify-between items-end">
-                                <div>
-                                    <p class="text-sm opacity-60">القيمة بالدولار الأمريكي</p>
-                                    <h2 class="text-4xl font-bold text-blue-600 mt-1" id="usdResult">0.00 $</h2>
-                                </div>
-                                <button onclick="copy('usdResult')" class="copy-btn bg-white dark:bg-gray-800 px-6 py-3 rounded-2xl border shadow-sm hover:shadow-md font-bold">نسخ النتيجة</button>
+                            <input type="number" id="usdRate" value="15000" class="w-32 p-2 rounded-xl border text-center font-bold text-blue-600 bg-white dark:bg-gray-800" oninput="handleMainInput('old')">
+                        </div>
+                        <div class="h-px bg-blue-200 dark:bg-blue-800 mb-4"></div>
+                        <div class="flex justify-between items-end">
+                            <div>
+                                <p id="lbl-equiv" class="text-xs font-bold uppercase tracking-wider opacity-60 mb-1">القيمة المعادلة</p>
+                                <h2 class="text-4xl font-black text-blue-600 dark:text-blue-400" id="usdResult">0.00 $</h2>
                             </div>
+                            <button id="btn-copy" onclick="copyToClipboard('usdResult')" class="btn-action px-5 py-2.5 rounded-xl font-bold text-sm">نسخ المبلغ</button>
                         </div>
                     </div>
                 </div>
 
-                <div class="gemini-card p-6">
-                    <h3 class="font-bold mb-6 flex items-center gap-2">
-                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"></path></svg>
-                        تقسيم الفئات الجديدة
-                    </h3>
-                    <div id="notesContainer" class="space-y-3">
-                        </div>
+                <div class="glass-card p-6 h-fit">
+                    <h3 id="lbl-notes" class="font-bold mb-4 flex items-center gap-2 text-lg">تقسيم الفئات</h3>
+                    <div id="notesContainer" class="space-y-2 max-h-[400px] overflow-y-auto pr-1">
+                        <div class="text-center py-10 opacity-50 text-sm">أدخل المبلغ لعرض الفئات</div>
+                    </div>
                 </div>
             </div>
         </main>
 
-        <section id="view-smart" class="hidden animate-fade">
-            <div class="max-w-3xl mx-auto space-y-6">
-                <div class="gemini-card p-8">
-                    <h3 class="text-xl font-bold mb-6 text-blue-500">نظام الدفع الذكي الآلي</h3>
-                    
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 items-center mb-8">
-                        <div class="space-y-2">
-                            <label class="font-bold">سعر الغرض المطلق</label>
-                            <input type="number" id="payPrice" class="gemini-input" placeholder="0.00" oninput="runSmartPay()">
+        <section id="view-smart" class="hidden animate-enter">
+            <div class="max-w-2xl mx-auto glass-card p-8">
+                <h3 id="title-smart" class="text-2xl font-bold mb-8 text-center">حاسبة الدفع الذكي</h3>
+                <div class="space-y-6">
+                    <div class="flex gap-4 items-end">
+                        <div class="flex-1 space-y-2">
+                            <label id="lbl-price" class="text-sm font-bold">سعر الغرض (المطلوب)</label>
+                            <input type="number" id="payPrice" class="modern-input" placeholder="0" oninput="runSmartPay()">
                         </div>
-                        <div class="space-y-2">
-                            <label class="font-bold">نوع العملة المسعّر بها</label>
-                            <select id="payPriceType" class="gemini-input" onchange="runSmartPay()">
-                                <option value="old">الليرة القديمة (SYP Old)</option>
-                                <option value="new" selected>الليرة الجديدة (SYP New)</option>
-                            </select>
-                        </div>
+                        <select id="payPriceType" class="modern-input w-32" onchange="runSmartPay()">
+                            <option value="new">بالجديد</option>
+                            <option value="old">بالقديم</option>
+                        </select>
                     </div>
 
-                    <div class="p-4 rounded-2xl bg-gray-50 dark:bg-gray-800 border border-dashed border-gray-300 dark:border-gray-600 mb-8">
-                        <div class="flex justify-between items-center text-sm">
-                            <span class="opacity-70">المقابل التلقائي:</span>
-                            <span id="smart-suggestion" class="font-bold text-blue-500">ادخل السعر للتحويل...</span>
+                    <div id="smart-suggestion" class="text-center text-sm font-bold text-blue-500">---</div>
+
+                    <div class="flex gap-4 items-end">
+                        <div class="flex-1 space-y-2">
+                            <label id="lbl-paid" class="text-sm font-bold text-green-600">المبلغ المدفوع فعلياً</label>
+                            <input type="number" id="payAmount" class="modern-input" placeholder="0" oninput="runSmartPay()">
                         </div>
+                        <select id="payAmountType" class="modern-input w-32" onchange="runSmartPay()">
+                            <option value="new">بالجديد</option>
+                            <option value="old">بالقديم</option>
+                        </select>
                     </div>
 
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 items-center mb-8">
-                        <div class="space-y-2">
-                            <label class="font-bold">المبلغ المدفوع فعلياً</label>
-                            <input type="number" id="payAmount" class="gemini-input text-green-600 font-bold" placeholder="0.00" oninput="runSmartPay()">
+                    <div class="grid grid-cols-2 gap-4 pt-4">
+                        <div class="p-4 rounded-2xl bg-green-50 dark:bg-green-900/20 text-center">
+                            <p id="res-lbl-new" class="text-xs font-bold text-green-600 mb-1">الباقي (بالجديد)</p>
+                            <p class="text-2xl font-black text-green-700 dark:text-green-400" id="res-change-new">0</p>
                         </div>
-                        <div class="space-y-2">
-                            <label class="font-bold">عملة الدفع</label>
-                            <select id="payAmountType" class="gemini-input" onchange="runSmartPay()">
-                                <option value="old">دفع بالقديم</option>
-                                <option value="new" selected>دفع بالجديد</option>
-                            </select>
-                        </div>
-                    </div>
-
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                        <div class="p-6 rounded-[24px] bg-green-50 dark:bg-green-900/10 border border-green-100 dark:border-green-800">
-                            <p class="text-xs uppercase opacity-60 font-bold mb-1">الباقي (بالجديد)</p>
-                            <h3 class="text-2xl font-bold text-green-600" id="res-change-new">0</h3>
-                        </div>
-                        <div class="p-6 rounded-[24px] bg-orange-50 dark:bg-orange-900/10 border border-orange-100 dark:border-orange-800">
-                            <p class="text-xs uppercase opacity-60 font-bold mb-1">الباقي (بالقديم)</p>
-                            <h3 class="text-2xl font-bold text-orange-600" id="res-change-old">0</h3>
+                        <div class="p-4 rounded-2xl bg-orange-50 dark:bg-orange-900/20 text-center">
+                            <p id="res-lbl-old" class="text-xs font-bold text-orange-600 mb-1">الباقي (بالقديم)</p>
+                            <p class="text-2xl font-black text-orange-700 dark:text-orange-400" id="res-change-old">0</p>
                         </div>
                     </div>
                 </div>
             </div>
         </section>
 
-        <section id="view-market" class="hidden animate-fade">
-            <div class="gemini-card p-8">
-                <div class="flex justify-between items-center mb-8">
-                    <h3 class="text-xl font-bold">أسعار الأسواق المباشرة</h3>
-                    <span class="text-xs text-green-500 flex items-center gap-1">● تحديث مباشر كل 5 ثواني</span>
-                </div>
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+        <section id="view-market" class="hidden animate-enter">
+            <div class="glass-card p-6 md:p-8">
+                <div class="flex flex-wrap justify-between items-center mb-8 gap-4">
                     <div>
-                        <h4 class="font-bold mb-4 opacity-70">Top 10 Cryptocurrencies (USD)</h4>
-                        <div id="crypto-list" class="space-y-4">
-                            </div>
+                        <h3 id="title-market" class="text-2xl font-bold">الأسواق العالمية</h3>
+                        <p class="text-sm opacity-60 mt-1">أسعار الذهب، الفضة، والعملات الرقمية</p>
                     </div>
-                    <div>
-                        <h4 class="font-bold mb-4 opacity-70">Forex Major Pairs</h4>
-                        <div id="forex-list" class="space-y-4">
-                            </div>
+                    <div class="flex items-center gap-2 bg-green-50 dark:bg-green-900/20 px-3 py-1.5 rounded-full border border-green-100 dark:border-green-800">
+                        <span class="w-2.5 h-2.5 rounded-full bg-green-500 live-indicator"></span>
+                        <span class="text-xs font-bold text-green-700 dark:text-green-400">تحديث مباشر (5s)</span>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                    <div class="space-y-6">
+                        <h4 class="font-bold flex items-center gap-2">🏆 المعادن والفوركس</h4>
+                        <div id="commodities-list" class="space-y-3">
+                            <div class="p-4 text-center opacity-50">جاري التحميل...</div>
+                        </div>
+                    </div>
+                    <div class="space-y-6">
+                        <h4 class="font-bold flex items-center gap-2">₿ العملات الرقمية</h4>
+                        <div id="crypto-list" class="space-y-3">
+                            <div class="p-4 text-center opacity-50">جاري التحميل...</div>
+                        </div>
                     </div>
                 </div>
             </div>
         </section>
 
-        <footer class="mt-16 text-center opacity-50 space-y-2">
-            <p class="font-medium">Lira Link Smart Ecosystem &copy; 2026</p>
-            <p class="text-xs">تم التصميم ليتناسب مع معايير الدقة والجودة لشركة Lira Link</p>
+        <footer class="mt-20 text-center opacity-40 space-y-2 pb-8 text-xs font-bold">
+            <p>MR.Q ECOSYSTEM © 2026 | LIRA LINK PRO V3.0</p>
         </footer>
     </div>
 
     <script>
-        // --- State Management ---
-        let currentLang = 'ar';
-        const notes = [500, 200, 100, 50, 25, 10];
+        let currentLang = localStorage.getItem('lang') || 'ar';
+        const i18n = {
+            ar: {
+                langBtn: "English",
+                tabMain: "المحول الرئيسي",
+                tabSmart: "الدفع الذكي",
+                tabMarket: "السوق العالمي",
+                titleConv: "تحويل العملة (SYP)",
+                lblOld: "القيمة بالقديم",
+                lblNew: "القيمة بالجديد",
+                lblRate: "سعر صرف الدولار (يدوي)",
+                lblEquiv: "القيمة المعادلة",
+                btnCopy: "نسخ المبلغ",
+                lblNotes: "تقسيم الفئات",
+                titleSmart: "حاسبة الدفع الذكي",
+                lblPrice: "سعر الغرض (المطلوب)",
+                lblPaid: "المبلغ المدفوع فعلياً",
+                resNew: "الباقي (بالجديد)",
+                resOld: "الباقي (بالقديم)",
+                titleMarket: "الأسواق العالمية"
+            },
+            en: {
+                langBtn: "العربية",
+                tabMain: "Main Converter",
+                tabSmart: "Smart Pay",
+                tabMarket: "Global Market",
+                titleConv: "Converter (SYP)",
+                lblOld: "Old Syp Value",
+                lblNew: "New Syp Value",
+                lblRate: "USD Rate (Manual)",
+                lblEquiv: "Equivalent Value",
+                btnCopy: "Copy Amount",
+                lblNotes: "Notes Breakdown",
+                titleSmart: "Smart Pay Calc",
+                lblPrice: "Required Price",
+                lblPaid: "Actually Paid",
+                resNew: "Change (New)",
+                resOld: "Change (Old)",
+                titleMarket: "Global Markets"
+            }
+        };
 
-        // --- Core Functions ---
         function toggleTheme() {
             document.body.classList.toggle('dark-mode');
             localStorage.setItem('theme', document.body.classList.contains('dark-mode') ? 'dark' : 'light');
@@ -190,129 +301,154 @@
 
         function toggleLang() {
             currentLang = currentLang === 'ar' ? 'en' : 'ar';
+            localStorage.setItem('lang', currentLang);
+            applyLang();
+        }
+
+        function applyLang() {
+            const t = i18n[currentLang];
             document.documentElement.dir = currentLang === 'ar' ? 'rtl' : 'ltr';
-            document.getElementById('langBtn').innerText = currentLang === 'ar' ? 'English' : 'العربية';
+            document.getElementById('langBtn').innerText = t.langBtn;
+            document.getElementById('tab-main').innerText = t.tabMain;
+            document.getElementById('tab-smart').innerText = t.tabSmart;
+            document.getElementById('tab-market').innerText = t.tabMarket;
+            document.getElementById('title-conv').innerText = t.titleConv;
+            document.getElementById('lbl-old').querySelector('span').innerText = t.lblOld;
+            document.getElementById('lbl-new').querySelector('span').innerText = t.lblNew;
+            document.getElementById('lbl-rate').innerText = t.lblRate;
+            document.getElementById('lbl-equiv').innerText = t.lblEquiv;
+            document.getElementById('btn-copy').innerText = t.btnCopy;
+            document.getElementById('lbl-notes').innerText = t.lblNotes;
+            document.getElementById('title-smart').innerText = t.titleSmart;
+            document.getElementById('lbl-price').innerText = t.lblPrice;
+            document.getElementById('lbl-paid').innerText = t.lblPaid;
+            document.getElementById('res-lbl-new').innerText = t.resNew;
+            document.getElementById('res-lbl-old').innerText = t.resOld;
+            document.getElementById('title-market').innerText = t.titleMarket;
         }
 
         function switchTab(tabId) {
             ['main', 'smart', 'market'].forEach(t => {
                 document.getElementById(`view-${t}`).classList.add('hidden');
-                document.getElementById(`tab-${t}`).classList.remove('tab-active', 'opacity-100');
-                document.getElementById(`tab-${t}`).classList.add('opacity-60');
+                document.getElementById(`tab-${t}`).classList.remove('tab-active');
             });
             document.getElementById(`view-${tabId}`).classList.remove('hidden');
-            document.getElementById(`tab-${tabId}`).classList.add('tab-active', 'opacity-100');
+            document.getElementById(`tab-${tabId}`).classList.add('tab-active');
         }
 
-        // --- Main Converter ---
         function handleMainInput(source) {
             const oldIn = document.getElementById('oldSyp');
             const newIn = document.getElementById('newSyp');
-            const rate = document.getElementById('usdRate').value || 1;
+            const rate = parseFloat(document.getElementById('usdRate').value) || 15000;
+            localStorage.setItem('savedRate', rate);
 
             if(source === 'old') {
-                newIn.value = (oldIn.value / 100).toFixed(2);
+                newIn.value = oldIn.value ? (parseFloat(oldIn.value) / 100).toFixed(2) : '';
             } else {
-                oldIn.value = (newIn.value * 100).toFixed(0);
+                oldIn.value = newIn.value ? (parseFloat(newIn.value) * 100).toFixed(0) : '';
             }
             
-            document.getElementById('usdResult').innerText = (oldIn.value / rate).toFixed(2) + " $";
-            renderNotes(newIn.value);
+            document.getElementById('formatted-old').innerText = oldIn.value ? Number(oldIn.value).toLocaleString() : '';
+            document.getElementById('formatted-new').innerText = newIn.value ? Number(newIn.value).toLocaleString() : '';
+
+            const usdVal = oldIn.value ? (parseFloat(oldIn.value) / rate).toFixed(2) : "0.00";
+            document.getElementById('usdResult').innerText = usdVal + " $";
+            renderNotes(parseFloat(newIn.value));
         }
 
         function renderNotes(val) {
+            const container = document.getElementById('notesContainer');
+            if(!val) { container.innerHTML = '<div class="text-center py-10 opacity-50 text-sm">أدخل المبلغ لعرض الفئات</div>'; return; }
             let amount = Math.floor(val);
             let html = '';
-            notes.forEach(note => {
+            [500, 200, 100, 50, 25, 10, 5, 1].forEach(note => {
                 let count = Math.floor(amount / note);
                 amount %= note;
                 if(count > 0) {
-                    html += `
-                    <div class="flex justify-between items-center p-3 bg-gray-50 dark:bg-gray-800/50 rounded-2xl border border-gray-100 dark:border-gray-700 animate-fade">
-                        <span class="font-bold">${note} <small class="opacity-50">ليرة</small></span>
-                        <span class="bg-blue-500 text-white px-3 py-1 rounded-lg text-sm font-bold">X ${count}</span>
+                    html += `<div class="flex justify-between items-center p-3 market-item rounded-xl mb-2">
+                        <span class="font-bold">${note} ليرة</span>
+                        <span class="bg-blue-600 text-white px-3 py-1 rounded-lg text-xs font-bold">X ${count}</span>
                     </div>`;
                 }
             });
-            document.getElementById('notesContainer').innerHTML = html || '<p class="text-center opacity-40 py-10">أدخل مبلغاً لعرض الفئات</p>';
+            container.innerHTML = html;
         }
 
-        // --- Smart Pay ---
         function runSmartPay() {
-            const price = parseFloat(document.getElementById('payPrice').value) || 0;
-            const priceType = document.getElementById('payPriceType').value;
-            const paid = parseFloat(document.getElementById('payAmount').value) || 0;
-            const paidType = document.getElementById('payAmountType').value;
+            const p = parseFloat(document.getElementById('payPrice').value) || 0;
+            const pt = document.getElementById('payPriceType').value;
+            const a = parseFloat(document.getElementById('payAmount').value) || 0;
+            const at = document.getElementById('payAmountType').value;
 
-            const suggestion = priceType === 'old' ? (price/100).toFixed(2) + " جديدة" : (price*100).toLocaleString() + " قديمة";
-            document.getElementById('smart-suggestion').innerText = price > 0 ? "السعر المعادل: " + suggestion : "ادخل السعر للتحويل...";
+            const pOld = pt === 'new' ? p * 100 : p;
+            const aOld = at === 'new' ? a * 100 : a;
+            const diff = aOld - pOld;
 
-            const priceBase = priceType === 'new' ? price * 100 : price;
-            const paidBase = paidType === 'new' ? paid * 100 : paid;
-            const diffBase = paidBase - priceBase;
-
-            document.getElementById('res-change-old').innerText = diffBase > 0 ? diffBase.toLocaleString() : 0;
-            document.getElementById('res-change-new').innerText = diffBase > 0 ? (diffBase / 100).toFixed(2) : 0;
+            document.getElementById('res-change-old').innerText = diff.toLocaleString();
+            document.getElementById('res-change-new').innerText = (diff / 100).toFixed(2);
+            document.getElementById('smart-suggestion').innerText = p > 0 ? `يعادل بالـ ${pt==='old'?'جديد':'قديم'}: ${pt==='old'?(p/100).toFixed(2):(p*100).toLocaleString()}` : '---';
         }
 
-        // --- Live Market Data (Crypto + Forex) ---
         async function fetchMarketData() {
             try {
-                // Cryptocurrencies
-                const cryptoRes = await fetch('https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&order=market_cap_desc&per_page=10&page=1&sparkline=false');
-                const cryptos = await cryptoRes.json();
-                document.getElementById('crypto-list').innerHTML = cryptos.map(c => `
-                    <div class="flex justify-between p-3 border-b border-gray-100 dark:border-gray-800">
-                        <span><b>${c.symbol.toUpperCase()}</b> <small class="opacity-50">${c.name}</small></span>
-                        <span class="font-bold font-mono">${c.current_price.toLocaleString(undefined, {minimumFractionDigits:2, maximumFractionDigits:2})} $</span>
-                        <span class="${c.price_change_percentage_24h >= 0 ? 'text-green-500' : 'text-red-500'} text-xs font-bold">
-                            ${c.price_change_percentage_24h.toFixed(2)}%
-                        </span>
-                    </div>
-                `).join('');
-
-                // Forex
-                const forexRes = await fetch('https://api.exchangerate.host/latest?base=USD&symbols=EUR,GBP,JPY,AUD,CAD,CHF,NZD');
+                const [cryptoRes, forexRes] = await Promise.all([
+                    fetch('https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&ids=bitcoin,ethereum,binancecoin,solana,ripple,pax-gold,kinesis-silver&order=market_cap_desc'),
+                    fetch('https://api.frankfurter.app/latest?from=USD&to=EUR,GBP,TRY,SAR,AED')
+                ]);
+                const data = await cryptoRes.json();
                 const forexData = await forexRes.json();
-                const forex = [
-                    {p:'EUR/USD', v: forexData.rates.EUR.toFixed(4)},
-                    {p:'GBP/USD', v: forexData.rates.GBP.toFixed(4)},
-                    {p:'USD/JPY', v: forexData.rates.JPY.toFixed(2)},
-                    {p:'AUD/USD', v: forexData.rates.AUD.toFixed(4)},
-                    {p:'USD/CAD', v: forexData.rates.CAD.toFixed(4)},
-                    {p:'USD/CHF', v: forexData.rates.CHF.toFixed(4)},
-                    {p:'NZD/USD', v: forexData.rates.NZD.toFixed(4)}
-                ];
-                document.getElementById('forex-list').innerHTML = forex.map(f => `
-                    <div class="flex justify-between p-3 border-b border-gray-100 dark:border-gray-800">
-                        <span class="font-bold">${f.p}</span>
-                        <span class="font-mono">${f.v}</span>
+
+                const gold = data.find(c => c.id === 'pax-gold');
+                const silver = data.find(c => c.id === 'kinesis-silver');
+                let commHtml = '';
+                if(gold) commHtml += createItem('Gold', 'XAU', gold.current_price, gold.price_change_percentage_24h, '🏆');
+                if(silver) commHtml += createItem('Silver', 'XAG', silver.current_price, silver.price_change_percentage_24h, '🥈');
+                
+                ['EUR', 'GBP', 'TRY'].forEach(k => {
+                    commHtml += `<div class="flex justify-between p-3 market-item rounded-xl shadow-sm font-bold">
+                        <span style="color: var(--text-primary)">USD/${k}</span>
+                        <span class="font-mono text-blue-600">${forexData.rates[k].toFixed(3)}</span>
+                    </div>`;
+                });
+                document.getElementById('commodities-list').innerHTML = commHtml;
+
+                document.getElementById('crypto-list').innerHTML = data
+                    .filter(c => !['pax-gold', 'kinesis-silver'].includes(c.id))
+                    .slice(0, 5)
+                    .map(c => createItem(c.name, c.symbol.toUpperCase(), c.current_price, c.price_change_percentage_24h, '₿'))
+                    .join('');
+            } catch(e) { console.error(e); }
+        }
+
+        function createItem(n, s, p, c, i) {
+            const isUp = c >= 0;
+            return `<div class="flex justify-between items-center p-3 market-item rounded-xl shadow-sm mb-2">
+                <div class="flex items-center gap-2">
+                    <span class="text-lg">${i}</span>
+                    <div>
+                        <div class="text-sm font-black" style="color: var(--text-primary)">${s}</div>
+                        <div class="text-[10px] font-bold" style="color: var(--text-secondary)">${n}</div>
                     </div>
-                `).join('');
-
-            } catch(err) {
-                console.error('Market Data Error:', err);
-            }
-        }
-        setInterval(fetchMarketData, 5000); // update every 5 seconds
-
-        // --- Copy Function ---
-        function copy(id) {
-            const val = document.getElementById(id).innerText;
-            navigator.clipboard.writeText(val);
-            const btn = event.target;
-            const originalText = btn.innerText;
-            btn.innerText = "تم النسخ!";
-            setTimeout(() => btn.innerText = originalText, 1500);
+                </div>
+                <div class="text-right">
+                    <div class="text-sm font-black" style="color: var(--text-primary)">$${p.toLocaleString()}</div>
+                    <div class="text-[10px] font-bold ${isUp?'text-green-600':'text-red-600'}">${isUp?'▲':'▼'} ${Math.abs(c).toFixed(2)}%</div>
+                </div>
+            </div>`;
         }
 
-        // --- Init ---
+        function copyToClipboard(id) {
+            navigator.clipboard.writeText(document.getElementById(id).innerText);
+            alert("تم النسخ!");
+        }
+
         window.onload = () => {
-            if(localStorage.getItem('theme') === 'dark') toggleTheme();
+            if(localStorage.getItem('theme') === 'dark') document.body.classList.add('dark-mode');
+            if(localStorage.getItem('savedRate')) document.getElementById('usdRate').value = localStorage.getItem('savedRate');
+            applyLang();
             fetchMarketData();
-            handleMainInput('old');
+            setInterval(fetchMarketData, 30000); // تحديث كل 30 ثانية لتجنب الحظر من الـ API
         };
     </script>
 </body>
 </html>
-
