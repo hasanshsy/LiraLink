@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="Lira Link - Smart Currency Converter by Anas Shameea">
+    <link rel="manifest" href="manifest.json">
     <meta name="theme-color" content="#2563EB">
     <title>Lira Link | MR.Q Ecosystem</title>
     <script src="https://cdn.tailwindcss.com"></script>
@@ -13,7 +14,7 @@
             --bg-primary: #F3F4F6;
             --bg-card: #FFFFFF;
             --text-primary: #111827;
-            --text-secondary: #4B5563; /* تم تغميقه قليلاً للوضوح */
+            --text-secondary: #4B5563; 
             --accent-color: #2563EB;
             --border-color: #D1D5DB;
             --input-bg: #F9FAFB;
@@ -84,7 +85,6 @@
         }
         .btn-action:active { transform: scale(0.95); }
 
-        /* ستايل خاص لبطاقات الأسعار العالمية لضمان القراءة */
         .market-item {
             background-color: var(--bg-card);
             border: 1px solid var(--border-color);
@@ -447,7 +447,7 @@
             if(localStorage.getItem('savedRate')) document.getElementById('usdRate').value = localStorage.getItem('savedRate');
             applyLang();
             fetchMarketData();
-            setInterval(fetchMarketData, 30000); // تحديث كل 30 ثانية لتجنب الحظر من الـ API
+            setInterval(fetchMarketData, 30000); 
         };
     </script>
 </body>
