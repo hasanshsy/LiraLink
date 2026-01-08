@@ -2,9 +2,8 @@ const CACHE_NAME = 'lira-link-cache-v1';
 const urlsToCache = [
     './',
     './index.html',
-    './manifest.json',
-    './logo-192.png',
-    './logo-512.png'
+    './manifest.json'
+    './logo.png'
 ];
 
 self.addEventListener('install', event => {
@@ -20,3 +19,4 @@ self.addEventListener('fetch', event => {
         .then(response => response || fetch(event.request))
     );
 });
+
