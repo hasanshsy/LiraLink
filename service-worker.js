@@ -1,30 +1,17 @@
-const CACHE_NAME = "liralink-cache-v3";
+const CACHE_NAME = "liralink-v5";
 const urlsToCache = [
   "./",
   "./index.html",
   "./manifest.json",
-  "./icon192.png",
-  "./logo.png",
-  "https://cdn.tailwindcss.com",
-  "https://fonts.googleapis.com/css2?family=Noto+Sans+Arabic:wght@300;400;500;700;800&family=Inter:wght@400;600;800&display=swap"
+  "./logo.jpg",
+  "./logo 2.jpg",
+  "https://cdn.tailwindcss.com"
 ];
 
 self.addEventListener("install", event => {
   event.waitUntil(
     caches.open(CACHE_NAME).then(cache => cache.addAll(urlsToCache))
   );
-  self.skipWaiting();
-});
-
-self.addEventListener("activate", event => {
-  event.waitUntil(
-    caches.keys().then(cacheNames => 
-      Promise.all(
-        cacheNames.filter(name => name !== CACHE_NAME).map(name => caches.delete(name))
-      )
-    )
-  );
-  self.clients.claim();
 });
 
 self.addEventListener("fetch", event => {
