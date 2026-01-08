@@ -4,7 +4,9 @@ const urlsToCache = [
   "./index.html",
   "./manifest.json",
   "./logo.jpg",
-  "./logo2.jpg"
+  "./logo2.jpg",
+  "./icon-192.png",
+  "./icon-512.png"
   // لاحظ: لا نُجبر الآن على إضافة موارد خارجية (مثل CDN) إلى addAll
 ];
 
