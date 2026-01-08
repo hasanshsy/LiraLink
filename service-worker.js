@@ -1,9 +1,10 @@
-const CACHE_NAME = "liralink-cache-v2";
+const CACHE_NAME = "liralink-cache-v3";
 const urlsToCache = [
   "./",
   "./index.html",
   "./manifest.json",
-  "./image11.jpg",
+  "./icon192.png",
+  "./logo.png",
   "https://cdn.tailwindcss.com",
   "https://fonts.googleapis.com/css2?family=Noto+Sans+Arabic:wght@300;400;500;700;800&family=Inter:wght@400;600;800&display=swap"
 ];
