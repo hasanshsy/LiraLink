@@ -6,7 +6,8 @@
     <meta name="description" content="Lira Link - Smart Currency Converter by Anas Shameea">
     <link rel="manifest" href="manifest.json">
     <meta name="theme-color" content="#2563EB">
-    <link rel="apple-touch-icon" href="icon192.png">
+    <!-- تأكد أن الملف logo2.jpg موجود في نفس المسار -->
+    <link rel="apple-touch-icon" href="logo2.jpg">
     <title>Lira Link | MR.Q Ecosystem</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Arabic:wght@300;400;500;700;800&family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
@@ -453,7 +454,8 @@
             // PWA Registration Code
             if ('serviceWorker' in navigator) {
                 navigator.serviceWorker.register('./service-worker.js')
-                .then(() => console.log("Service Worker Registered"));
+                .then(() => console.log("Service Worker Registered"))
+                .catch(err => console.warn("Service Worker registration failed:", err));
             }
         };
     </script>
